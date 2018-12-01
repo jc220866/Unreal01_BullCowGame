@@ -13,7 +13,7 @@ bool FBullCowGame::IsGameWon()
 
 int FBullCowGame::GetWordLength()
 {
-	return 0;
+	return HiddenWordLength;
 }
 
 int FBullCowGame::GetMaximumGuesses()
@@ -21,9 +21,11 @@ int FBullCowGame::GetMaximumGuesses()
 	return MyMaximumGuesses;
 }
 
-int FBullCowGame::GetCurrentTry()
+int FBullCowGame::GetCurrentGuess()
 {
-	return 0;
+	return MyCurrentGuess; // When I was implementing MyCurrentGuess from a class instead of inside a for loop, 
+						   // it was giving me 6 turns. That's because I forgot to say 'return MyCurrentGuess',
+						   // it was returning '0', giving me an extra turn. Oops!
 }
 
 bool FBullCowGame::IsGuessValid(std::string PlayerGuess)

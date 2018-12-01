@@ -32,20 +32,30 @@ void PrintIntroduction()
 void PlayGame()
 {
 	FBullCowGame BCGame; /*Instance of our class.
+
 	My understanding is: When we instantiate a class, we are simply making a big block of variables
 	with default values as set in the header file. This means that we can quite easily create (and
 	keep track of the data of) a second game by creating BCGame2, for example.
+
 		Now that we have our class instantiated, we can edit any part of it and the changes will be saved
 	to that instance (BCGame, in this case). It's like the class is a template, a baseline for variables, and
 	we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
 	*/
+
+	int WordLength = BCGame.GetWordLength();
 	int MaxGuesses = BCGame.GetMaximumGuesses();
+	int CurrentGuess = BCGame.GetCurrentGuess();
 
 	do
 	{
-		PrintIntroPrompt();
-
+		PrintIntroPrompt(WordLength);
+		/*
 		for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
+
+		initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
+		Now, however, we have instantiated it above to fit with our class, and we can simply say the following:
+		*/
+		for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 		{
 			std::string Guess = GetPlayerGuess();
 			PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
@@ -54,10 +64,10 @@ void PlayGame()
 }
 
 // Prints a prompt containing the word length that is separate from the introduction
-void PrintIntroPrompt()
+void PrintIntroPrompt(int WordLength)
 {
 	std::cout << "________________________________________________________________________________\n";
-	std::cout << "Can you guess the --> " << WORD_LENGTH << " <-- letter word I'm thinking of?\n";
+	std::cout << "Can you guess the --> " << WordLength << " <-- letter word I'm thinking of?\n";
 	std::cout << "________________________________________________________________________________\n";
 }
 
@@ -84,24 +94,26 @@ void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesse
 	std::cout << std::endl;
 }
 
+// Once the player has ran out of guesses, we taunt them for it
 void PrintGameOver()
 {
 	// std::cout << "________________________________________________________________________________\n";
 	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. Loser.\n";
 }
 
+// Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'
 bool AskToPlayAgain()
 {
-	std::string WantsToPlayAgain = "";
+	std::string PlayerInput = "";
 
 	PrintGameOver();
 	std::cout << "________________________________________________________________________________\n";
 	std::cout << "Do you want to play again?\n";
 	std::cout << std::endl;
 
-	std::getline(std::cin, WantsToPlayAgain);
+	std::getline(std::cin, PlayerInput);
 
-	return (WantsToPlayAgain[0] == 'Y') || (WantsToPlayAgain[0] == 'y');
+	return (PlayerInput[0] == 'Y') || (PlayerInput[0] == 'y');
 
 	/*
 	// As it turns out, the double pipe operator needs booleans either side of it, so 'Y' || 'y' is actually invalid.
