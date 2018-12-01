@@ -3,7 +3,7 @@
 
 void PrintIntroduction();
 void PlayGame();
-void PrintIntroPrompt(int WordLength); // remember to define the type of our parameter, here it is an 'int'
+void PrintIntroPrompt(int WordLength, int MaxGuesses); // remember to define the type of our parameter, here it is an 'int'
 std::string GetPlayerGuess();
 void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses);
 void PrintGameOver();

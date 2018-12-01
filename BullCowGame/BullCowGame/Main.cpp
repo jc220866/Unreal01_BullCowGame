@@ -48,7 +48,7 @@ void PlayGame()
 
 	do
 	{
-		PrintIntroPrompt(WordLength);
+		PrintIntroPrompt(WordLength, MaxGuesses);
 		/*
 		for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
 
@@ -64,10 +64,12 @@ void PlayGame()
 }
 
 // Prints a prompt containing the word length that is separate from the introduction
-void PrintIntroPrompt(int WordLength)
+void PrintIntroPrompt(int WordLength, int MaxGuesses)
 {
 	std::cout << "________________________________________________________________________________\n";
-	std::cout << "Can you guess the --> " << WordLength << " <-- letter word I'm thinking of?\n";
+	std::cout << "----------- Can you guess the --> " << WordLength << " <-- letter word I'm thinking of? -----------\n\n";
+
+	std::cout << "-------------------- You have --> " << MaxGuesses << " <-- Chances to guess. ----------------------";
 	std::cout << "________________________________________________________________________________\n";
 }
 
