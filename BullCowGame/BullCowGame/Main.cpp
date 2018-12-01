@@ -1,6 +1,6 @@
 # include <iostream>
 # include <string>
-# include "BullCowGame.h"
+# include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards
 
 // This is the (first?) thing our code does, the entrypoint of our program
 int main()
@@ -14,7 +14,6 @@ int main()
 // Only outputs simple strings, does nothing else
 void PrintIntroduction()
 {
-
 	std::cout << "________________________________________________________________________________\n";
 	std::cout << "Welcome to Bulls and Cows, a word guessing game!\n";
 	std::cout << "________________________________________________________________________________\n";
@@ -32,16 +31,26 @@ void PrintIntroduction()
 // Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses
 void PlayGame()
 {
+	FBullCowGame BCGame; /*Instance of our class.
+	My understanding is: When we instantiate a class, we are simply making a big block of variables
+	with default values as set in the header file. This means that we can quite easily create (and
+	keep track of the data of) a second game by creating BCGame2, for example.
+		Now that we have our class instantiated, we can edit any part of it and the changes will be saved
+	to that instance (BCGame, in this case). It's like the class is a template, a baseline for variables, and
+	we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
+	*/
+	int MaxGuesses = BCGame.GetMaximumGuesses();
+
 	do
 	{
 		PrintIntroPrompt();
 
-		for (int CurrentGuess = 1; CurrentGuess <= MAX_GUESSES; CurrentGuess++)
+		for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
 		{
 			std::string Guess = GetPlayerGuess();
-			PrintGuessFeedback(Guess, CurrentGuess);
+			PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 		}
-	} while (AskToPlayAgain());
+	} while (AskToPlayAgain()); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
 }
 
 // Prints a prompt containing the word length that is separate from the introduction
@@ -63,9 +72,9 @@ std::string GetPlayerGuess()
 }
 
 // After receiving the player's guess, we give them the bulls and cows of their guess
-void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess)
+void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses)
 {
-	int RemainingGuesses = (MAX_GUESSES - CurrentGuess);
+	int RemainingGuesses = (MaxGuesses - CurrentGuess);
 
 	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; }
 	else if (RemainingGuesses == 0) { std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
@@ -97,7 +106,7 @@ bool AskToPlayAgain()
 	/*
 	// As it turns out, the double pipe operator needs booleans either side of it, so 'Y' || 'y' is actually invalid.
 	// Furthermore, the solution given is far, far simpler and neater.
-	// Actually, I kind of want it to keep asking for either Y or N specifically.
+	// Actually, I kind of want it to keep asking for either Y or N specifically, rather than "PotATO" = False
 
 	while (WantsToPlayAgain[0] != 'Y' || 'y' || 'N' || 'n')
 	{
