@@ -2,6 +2,17 @@
 # include <string>
 # include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards
 
+FBullCowGame BCGame; /* Instance of our class. This also effectively calls the BCGame.Reset() function.
+
+					 My understanding is: When we instantiate a class, we are simply making a big block of variables
+					 with default values as set in the 'constructor'. This means that we can quite easily create (and
+					 keep track of the data of) a second game by creating BCGame2, for example.
+
+					 Now that we have our class instantiated, we can edit any part of it and the changes will be saved
+					 to that instance (BCGame, in this case). It's like the class is a template, a baseline for variables, and
+					 we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
+					 */
+
 // This is the (first?) thing our code does, the entrypoint of our program
 int main()
 {
@@ -31,21 +42,20 @@ void PrintIntroduction()
 // Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses
 void PlayGame()
 {
-	FBullCowGame BCGame; /* Instance of our class. This also effectively calls the BCGame.Reset() function.
-
-	My understanding is: When we instantiate a class, we are simply making a big block of variables
-	with default values as set in the 'constructor'. This means that we can quite easily create (and
-	keep track of the data of) a second game by creating BCGame2, for example.
-
-		Now that we have our class instantiated, we can edit any part of it and the changes will be saved
-	to that instance (BCGame, in this case). It's like the class is a template, a baseline for variables, and
-	we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
-	*/
 	BCGame.Reset();
-
+	
 	int WordLength = BCGame.GetWordLength();
 	int MaxGuesses = BCGame.GetMaximumGuesses();
 	int CurrentGuess = BCGame.GetCurrentGuess();
+	/*
+
+	Took me a while to realize this, but these variables above? Fatal flaw in our code.
+
+	The purpose of BCGame is to be an instance of our game, with its own variables that we can easily keep track of.
+	However, these variables above are new, different, irrelevant. They are separate from our class and our BCGame instance!
+
+	I think. I think they are being assigned from the 'private' variables in the class in our header file.
+	*/
 
 	do
 	{

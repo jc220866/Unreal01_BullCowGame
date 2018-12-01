@@ -29,9 +29,10 @@ private:
 	// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example
 
 	// These variables are 'declared' in private, but they are initialized (assigned values) in the constructor
-	int HiddenWordLength = 5; 
-	int MyCurrentGuess;
-	int MyMaximumGuesses;  
+	
+	int HiddenWordLength = 10;
+	int MyCurrentGuess = -19;
+	int MyMaximumGuesses;
 	
 	/*
 	a 'const' before a variable means the variable cannot be changed

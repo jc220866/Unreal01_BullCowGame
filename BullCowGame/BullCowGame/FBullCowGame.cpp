@@ -26,7 +26,9 @@ void FBullCowGame::Reset()
 {
 	int HiddenWordLength = 5;
 	int MyCurrentGuess = 1;
-	int MyMaximumGuesses = 5;
+
+	constexpr int MAX_TRIES = 5;
+	int MyMaximumGuesses = MAX_TRIES;
 
 	return;
 }
