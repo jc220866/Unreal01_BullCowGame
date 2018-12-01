@@ -9,23 +9,33 @@ void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesse
 void PrintGameOver();
 bool AskToPlayAgain();
 
-
 class FBullCowGame
 {
 public:
+	FBullCowGame(); // this is a constructor
+
+	int GetWordLength() const;
+	int GetCurrentGuess() const;
+	int GetMaximumGuesses() const;
+	bool IsGameWon() const;
+
 	void Reset(); // TODO change this from void to a more rich return value
-	bool IsGameWon();
-	int GetWordLength();
-	int GetMaximumGuesses();
-	int GetCurrentGuess();
 	bool IsGuessValid(std::string PlayerGuess);
 	
 
-
-	int MyPublicVariable;
+	int MyPublicVariable; // this is an example
 private:
-	int HiddenWordLength = 5;
-	int MyCurrentGuess = 1;
-	int MyMaximumGuesses = 5;  // This private variable is only accessible via the functions inside of our class.
-					// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example
+	// These private variables are only accessible via the functions inside of our class.
+	// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example
+
+	// These variables are 'declared' in private, but they are initialized (assigned values) in the constructor
+	int HiddenWordLength = 5; 
+	int MyCurrentGuess;
+	int MyMaximumGuesses;  
+	
+	/*
+	a 'const' before a variable means the variable cannot be changed
+	initially, 'MyMaximumGuesses' was a constant variable
+	however, this lead to me being unable to assign it a value in the constructor!
+	*/
 };
