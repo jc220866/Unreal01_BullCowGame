@@ -13,7 +13,7 @@ FBullCowGame BCGame; /* Instance of our class. This also effectively calls the B
 					 we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
 					 */
 
-// This is the (first?) thing our code does, the entrypoint of our program.
+// Anything in 'main()' is the first thing our code does, the entry-point of our program.
 int main()
 {
 	PrintIntroduction();
@@ -60,7 +60,7 @@ void PlayGame()
 	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	*/
 	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
-		// TODO convert the 'for' loop to a 'while' loop
+		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
 		std::string Guess = GetPlayerGuess();
 		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 	}
@@ -85,7 +85,7 @@ std::string GetPlayerGuess()
 	std::cout << "Please enter your guess: ";
 	std::getline(std::cin, Guess);
 	
-	// return a VALID guess to the game
+	// return a valid guess to the game
 	return Guess;
 }
 
@@ -94,7 +94,8 @@ void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesse
 {
 	int RemainingGuesses = (MaxGuesses - CurrentGuess);
 
-	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } // TODO switch!
+	// TODO turn this into a switch statement, which would be a more convenient way of changing our output from 'guesses' to 'guess' when there is only a single guess left
+	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } 
 	else if (RemainingGuesses == 0) { std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 	else							{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 
