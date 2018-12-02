@@ -8,6 +8,7 @@ std::string GetPlayerGuess();
 void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses);
 void PrintGameOver();
 bool AskToPlayAgain();
+bool AskToPlayAgai();
 
 class FBullCowGame
 {
@@ -30,8 +31,8 @@ private:
 
 	// These variables are 'declared' in private, but they are initialized (assigned values) in the constructor
 	
-	int HiddenWordLength = 10;
-	int MyCurrentGuess = -19;
+	int HiddenWordLength;
+	int MyCurrentGuess;
 	int MyMaximumGuesses;
 	
 	/*

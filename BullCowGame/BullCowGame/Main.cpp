@@ -42,23 +42,20 @@ void PrintIntroduction()
 // Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses
 void PlayGame()
 {
-	BCGame.Reset();
-	
-	int WordLength = BCGame.GetWordLength();
-	int MaxGuesses = BCGame.GetMaximumGuesses();
-	int CurrentGuess = BCGame.GetCurrentGuess();
-	/*
-
-	Took me a while to realize this, but these variables above? Fatal flaw in our code.
-
-	The purpose of BCGame is to be an instance of our game, with its own variables that we can easily keep track of.
-	However, these variables above are new, different, irrelevant. They are separate from our class and our BCGame instance!
-
-	I think. I think they are being assigned from the 'private' variables in the class in our header file.
-	*/
-
 	do
 	{
+		BCGame.Reset();
+		int WordLength = BCGame.GetWordLength();
+		int CurrentGuess = BCGame.GetCurrentGuess();
+		int MaxGuesses = BCGame.GetMaximumGuesses();
+		/*
+		Took me a while to realize this, but these variables above? Fatal flaw in our code.
+
+		The purpose of BCGame is to be an instance of our game, with its own variables that we can easily keep track of.
+		However, these variables above are new, different, irrelevant. They are separate from our class and our BCGame instance!
+
+		I think. I think they are being assigned from the 'private' variables in the class in our header file.
+		*/
 		PrintIntroPrompt(WordLength, MaxGuesses);
 		/*
 		for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
@@ -71,7 +68,7 @@ void PlayGame()
 			std::string Guess = GetPlayerGuess();
 			PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 		}
-	} while (AskToPlayAgain()); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
+	} while (AskToPlayAgai()); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
 }
 
 // Prints a prompt containing the word length that is separate from the introduction
@@ -152,4 +149,25 @@ bool AskToPlayAgain()
 		std::cout << "\n\nPlease enter either 'Y' or 'N'";
 	}
 	*/
+}
+
+bool AskToPlayAgai()
+{
+	PrintGameOver();
+
+	std::string PlayerInput = "default";
+	char FirstLetter = tolower(PlayerInput[0]);
+
+	do
+	{
+		std::cout << "________________________________________________________________________________\n";
+		std::cout << "Do you want to play again?\n";
+		std::cout << std::endl;
+
+		std::getline(std::cin, PlayerInput);
+		FirstLetter = tolower(PlayerInput[0]);
+	} 
+	while ((FirstLetter != 'y') && (FirstLetter != 'n'));
+
+	return (FirstLetter == 'y');
 }
