@@ -61,11 +61,13 @@ void PlayGame()
 	for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
 
 	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
-	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	*/
+	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	
+	*/
 	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
 		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
 		FText Guess = GetPlayerGuess();
+		BCGame.SubmitGuess(Guess);
 		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 	}
 }
@@ -98,9 +100,7 @@ void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses)
 {
 	int32 RemainingGuesses = (MaxGuesses - CurrentGuess);
 
-	// TODO turn this into a switch statement, which would be a more convenient way of changing our output from 'guesses' to 'guess' when there is only a single guess left
 	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } 
-	else if (RemainingGuesses == 0) { std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 	else							{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 
 	std::cout << "________________________________________________________________________________";

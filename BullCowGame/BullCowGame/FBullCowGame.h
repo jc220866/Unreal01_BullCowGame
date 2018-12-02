@@ -14,7 +14,7 @@ void PrintGameOver();
 bool AskToPlayAgain();
 
 // Values of 'bulls' and 'cows' initialized to 0.
-struct BullCowCount
+struct FBullCowCount
 {
 	int32 Bulls = 0; // A struct is the same as a class, except its members are public by default. This means structs are idea for grouping together variables of simple data types.
 	int32 Cows = 0; // Our struct was causing errors around 'SubmitGuess()' when placed below the class.
@@ -35,7 +35,7 @@ public:
 	void Reset(); // TODO change this from void to a more rich return value
 	bool IsGuessValid(FString PlayerGuess);
 
-	BullCowCount SubmitGuess(FString);
+	FBullCowCount SubmitGuess(FString);
 	
 private:
 	// These private variables are only accessible via the functions inside of our class.
@@ -46,7 +46,6 @@ private:
 	int32 HiddenWordLength;
 	int32 MyCurrentGuess;
 	int32 MyMaximumGuesses;
-	
 	/*
 	A 'const' before a variable means the variable cannot be changed.
 	Initially, 'MyMaximumGuesses' was a constant variable. However, this lead to me being unable to change its value in the constructor!

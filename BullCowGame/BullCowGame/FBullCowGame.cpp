@@ -34,9 +34,9 @@ void FBullCowGame::Reset()
 	const FString HIDDEN_WORD = "Loser";
 	MyHiddenWord = HIDDEN_WORD;
 
-	constexpr int32 WORD_LENGTH = 5;			// The biggest problem I had was solved by removing the 'int' in front of the variables here.
-	HiddenWordLength = WORD_LENGTH;			// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
-
+	const int32 WORD_LENGTH = HIDDEN_WORD.length();			
+	HiddenWordLength = WORD_LENGTH;						// The biggest problem I had was solved by removing the 'int' in front of the new (non-const) variables here.
+													// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
 	constexpr int32 CURRENT_GUESS = 1;			
 	MyCurrentGuess = CURRENT_GUESS;
 
@@ -51,23 +51,37 @@ bool FBullCowGame::IsGuessValid(FString PlayerGuess)
 	return false;
 }
 /*
-BullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
+FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 {
-	return BullCowCount();
+	return FBullCowCount();
 }
 
 Remember to go through the class when creating definitions for class functions.
 */
 // here will be a function that counts bulls and cows, submits a VALID guess and then increases the turn count
-BullCowCount FBullCowGame::SubmitGuess(FString)
+FBullCowCount FBullCowGame::SubmitGuess(FString)
 {
 	// increment current guess
 
 	// Setup a return variable (why?)
-	BullCowCount BullCowCount;
+	FBullCowCount FBullCowCount;
 
 	// loop through all letters in the guess
-	// compare letters against the hidden word
+	for (int32 g = 0; g < HiddenWordLength; g++) 
+	{
+		// compare letter against the hidden word
+		for (int32 h = 0; h < HiddenWordLength; h++)
+		{ 
+			// if the letter is in the word
 
-	return BullCowCount;  // This function has a return type of 'struct'. I'm not sure why we need parentheses after the struct...
+				// if the letter is in the right place
+
+					// increment bulls
+
+				// else if the letter is in the wrong place
+
+					// increment cows
+		}
+	}
+	return FBullCowCount;  // This function has a return type of 'struct'. I'm not sure why we need parentheses after the struct...
 }
