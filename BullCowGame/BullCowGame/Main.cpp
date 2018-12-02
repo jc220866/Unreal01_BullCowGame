@@ -1,6 +1,6 @@
 # include <iostream>
 # include <string>
-# include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards
+# include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards.
 
 FBullCowGame BCGame; /* Instance of our class. This also effectively calls the BCGame.Reset() function.
 
@@ -13,18 +13,18 @@ FBullCowGame BCGame; /* Instance of our class. This also effectively calls the B
 					 we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
 					 */
 
-// This is the (first?) thing our code does, the entrypoint of our program
+// This is the (first?) thing our code does, the entrypoint of our program.
 int main()
 {
 	PrintIntroduction();
 
 	do { PlayGame(); }
-	while ( AskToPlayAgain() ); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
+	while ( AskToPlayAgain() ); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards.
 
 	return 0;
 }
 
-// Only outputs simple strings, does nothing else
+// Only outputs simple strings, does nothing else.
 void PrintIntroduction()
 {
 	std::cout << "________________________________________________________________________________\n";
@@ -41,13 +41,13 @@ void PrintIntroduction()
 	std::cout << "If you get a BULL, then one of your letters is right AND in the right place.\n";
 }
 
-// Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses
+// Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses.
 void PlayGame()
 {
-	// Everything before the for loop is simply initializing the variables of our game (and printing a prompt)
+	// Everything before the for loop is simply initializing the variables of our game (and printing a prompt).
 	// The for loop itself simply plays the game an amount of times equal to 'MaxGuesses'.
 
-	BCGame.Reset(); // for now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all
+	BCGame.Reset(); // For now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all.
 	int WordLength = BCGame.GetWordLength();
 	int CurrentGuess = BCGame.GetCurrentGuess();
 	int MaxGuesses = BCGame.GetMaximumGuesses();
@@ -60,12 +60,13 @@ void PlayGame()
 	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	*/
 	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
+		// TODO convert the 'for' loop to a 'while' loop
 		std::string Guess = GetPlayerGuess();
 		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 	}
 }
 
-// Prints a prompt containing the word length that is separate from the introduction
+// Prints a prompt containing the word length that is separate from the introduction.
 void PrintIntroPrompt(int WordLength, int MaxGuesses)
 {
 	std::cout << "________________________________________________________________________________\n";
@@ -75,17 +76,20 @@ void PrintIntroPrompt(int WordLength, int MaxGuesses)
 	std::cout << "________________________________________________________________________________\n";
 }
 
-// Receives player's input for their guess
+// Receives player's input for their guess.
 std::string GetPlayerGuess()
 {
+	// TODO check for valid guesses
+
 	std::string Guess = "";
 	std::cout << "Please enter your guess: ";
 	std::getline(std::cin, Guess);
 	
+	// return a VALID guess to the game
 	return Guess;
 }
 
-// After receiving the player's guess, we give them the bulls and cows of their guess
+// After receiving the player's guess, we give them the bulls and cows of their guess.
 void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses)
 {
 	int RemainingGuesses = (MaxGuesses - CurrentGuess);
@@ -105,13 +109,13 @@ void PrintGameOver()
 	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. Loser.\n";
 }
 
-// Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'
+// Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'.
 bool AskToPlayAgain()
 {
 	PrintGameOver();
 
 	std::string PlayerInput = ""; 
-	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here
+	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here.
 
 	do 
 	{
@@ -122,13 +126,13 @@ bool AskToPlayAgain()
 		std::getline(std::cin, PlayerInput);
 		FirstLetter = tolower(PlayerInput[0]);
 	} 
-	while ((FirstLetter != 'y') && (FirstLetter != 'n')); // This will prompt the player to enter until they give us a Y or an N
+	while ((FirstLetter != 'y') && (FirstLetter != 'n')); // This will prompt the player to enter until they give us a Y or an N.
 
 	return (FirstLetter == 'y');
 	/*
 	// As it turns out, the double pipe operator needs booleans either side of it, so 'Y' || 'y' is actually invalid.
 	// Furthermore, the solution given is far, far simpler and neater.
-	// Actually, I kind of want it to keep asking for either Y or N specifically, rather than "PotATO" = False
+	// Actually, I kind of want it to keep asking for either Y or N specifically, rather than "PotATO" = False.
 
 	while (WantsToPlayAgain[0] != 'Y' || 'y' || 'N' || 'n')
 	{

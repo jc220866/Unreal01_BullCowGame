@@ -23,7 +23,7 @@ bool FBullCowGame::IsGameWon() const { return false; }
 	However, functions that are not a member of a class cannot be const.	*/
 
 
-// our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate
+// Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
 	constexpr int WORD_LENGTH = 5;			// The biggest problem I had was solved by removing the 'int' in front of the variables here.
