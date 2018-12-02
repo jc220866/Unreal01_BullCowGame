@@ -2,6 +2,10 @@
 # include <string>
 # include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards.
 
+// FText vs FString = FStrings are mutable and can be manipulated, FText are immutable and generally used for interaction with the player.
+using FText = std::string;
+using int32 = int;
+
 FBullCowGame BCGame; /* Instance of our class. This also effectively calls the BCGame.Reset() function.
 
 					 My understanding is: When we instantiate a class, we are simply making a big block of variables
@@ -48,9 +52,9 @@ void PlayGame()
 	// The for loop itself simply plays the game an amount of times equal to 'MaxGuesses'.
 
 	BCGame.Reset(); // For now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all.
-	int WordLength = BCGame.GetWordLength();
-	int CurrentGuess = BCGame.GetCurrentGuess();
-	int MaxGuesses = BCGame.GetMaximumGuesses();
+	int32 WordLength = BCGame.GetWordLength();
+	int32 CurrentGuess = BCGame.GetCurrentGuess();
+	int32 MaxGuesses = BCGame.GetMaximumGuesses();
 
 	PrintIntroPrompt(WordLength, MaxGuesses);
 	/*
@@ -61,13 +65,13 @@ void PlayGame()
 	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
 		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
-		std::string Guess = GetPlayerGuess();
+		FText Guess = GetPlayerGuess();
 		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
 	}
 }
 
 // Prints a prompt containing the word length that is separate from the introduction.
-void PrintIntroPrompt(int WordLength, int MaxGuesses)
+void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses)
 {
 	std::cout << "________________________________________________________________________________\n";
 	std::cout << "----------- Can you guess the --> " << WordLength << " <-- letter word I'm thinking of? -----------\n\n";
@@ -77,11 +81,11 @@ void PrintIntroPrompt(int WordLength, int MaxGuesses)
 }
 
 // Receives player's input for their guess.
-std::string GetPlayerGuess()
+FText GetPlayerGuess()
 {
 	// TODO check for valid guesses
 
-	std::string Guess = "";
+	FText Guess = "";
 	std::cout << "Please enter your guess: ";
 	std::getline(std::cin, Guess);
 	
@@ -90,9 +94,9 @@ std::string GetPlayerGuess()
 }
 
 // After receiving the player's guess, we give them the bulls and cows of their guess.
-void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses)
+void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses)
 {
-	int RemainingGuesses = (MaxGuesses - CurrentGuess);
+	int32 RemainingGuesses = (MaxGuesses - CurrentGuess);
 
 	// TODO turn this into a switch statement, which would be a more convenient way of changing our output from 'guesses' to 'guess' when there is only a single guess left
 	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } 
@@ -115,7 +119,7 @@ bool AskToPlayAgain()
 {
 	PrintGameOver();
 
-	std::string PlayerInput = ""; 
+	FText PlayerInput = ""; 
 	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here.
 
 	do 
