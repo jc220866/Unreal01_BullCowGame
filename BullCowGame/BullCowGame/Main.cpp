@@ -67,8 +67,8 @@ void PlayGame()
 	{
 		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
 		FText Guess = GetPlayerGuess();
-		BCGame.SubmitGuess(Guess);
-		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
+		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
+		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses, BullCowCount);
 	}
 }
 
@@ -96,12 +96,14 @@ FText GetPlayerGuess()
 }
 
 // After receiving the player's guess, we give them the bulls and cows of their guess.
-void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses)
+void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, FBullCowCount BullCowCount)
 {
 	int32 RemainingGuesses = (MaxGuesses - CurrentGuess);
+	int32 Bulls = BullCowCount.Bulls;
+	int32 Cows = BullCowCount.Cows;
 
-	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } 
-	else							{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
+	if (RemainingGuesses == 1)	{ std::cout << "\n--- You scored " << Bulls << " bulls and " << Cows << " cows -------------------------- " << RemainingGuesses << " guess left. -----"; }
+	else						{ std::cout << "\n--- You scored " << Bulls << " bulls and " << Cows << " cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
