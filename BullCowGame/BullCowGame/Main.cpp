@@ -111,7 +111,7 @@ void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses)
 void PrintGameOver()
 {
 	// TODO give more useful feedback post-game
-	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. Loser.\n";
+	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. " << BCGame.GetHiddenWord() <<".\n";
 }
 
 // Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'.

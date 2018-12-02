@@ -1,12 +1,15 @@
 # include "FBullCowGame.h"
 # include <string>
 
+using FString = std::string;
 using int32 = int;
 
 // This constructor is where the game instance 'BCGame' gets its data from. 
 // Values set in the constructor are RUN-TIME values. They overwrite the private variables which are COMPILE-TIME values.
 FBullCowGame::FBullCowGame() { Reset(); }
 
+
+FString FBullCowGame::GetHiddenWord() const { return MyHiddenWord; }
 
 int32 FBullCowGame::GetWordLength() const { return HiddenWordLength; }
 /*
@@ -28,6 +31,9 @@ bool FBullCowGame::IsGameWon() const { return false; }
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
+	const FString HIDDEN_WORD = "Loser";
+	MyHiddenWord = HIDDEN_WORD;
+
 	constexpr int32 WORD_LENGTH = 5;			// The biggest problem I had was solved by removing the 'int' in front of the variables here.
 	HiddenWordLength = WORD_LENGTH;			// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
 
@@ -43,4 +49,25 @@ void FBullCowGame::Reset()
 bool FBullCowGame::IsGuessValid(FString PlayerGuess)
 {
 	return false;
+}
+/*
+BullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
+{
+	return BullCowCount();
+}
+
+Remember to go through the class when creating definitions for class functions.
+*/
+// here will be a function that counts bulls and cows, submits a VALID guess and then increases the turn count
+BullCowCount FBullCowGame::SubmitGuess(FString)
+{
+	// increment current guess
+
+	// Setup a return variable (why?)
+	BullCowCount BullCowCount;
+
+	// loop through all letters in the guess
+	// compare letters against the hidden word
+
+	return BullCowCount;  // This function has a return type of 'struct'. I'm not sure why we need parentheses after the struct...
 }
