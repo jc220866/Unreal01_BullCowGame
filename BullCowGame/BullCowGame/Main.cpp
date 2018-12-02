@@ -17,7 +17,9 @@ FBullCowGame BCGame; /* Instance of our class. This also effectively calls the B
 int main()
 {
 	PrintIntroduction();
-	PlayGame();
+
+	do { PlayGame(); }
+	while ( AskToPlayAgain() ); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
 
 	return 0;
 }
@@ -42,33 +44,25 @@ void PrintIntroduction()
 // Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses
 void PlayGame()
 {
-	do
+	// Everything before the for loop is simply initializing the variables of our game (and printing a prompt)
+	// The for loop itself simply plays the game an amount of times equal to 'MaxGuesses'.
+
+	BCGame.Reset(); // for now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all
+	int WordLength = BCGame.GetWordLength();
+	int CurrentGuess = BCGame.GetCurrentGuess();
+	int MaxGuesses = BCGame.GetMaximumGuesses();
+
+	PrintIntroPrompt(WordLength, MaxGuesses);
+	/*
+	for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
+
+	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
+	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	*/
+	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
-		BCGame.Reset();
-		int WordLength = BCGame.GetWordLength();
-		int CurrentGuess = BCGame.GetCurrentGuess();
-		int MaxGuesses = BCGame.GetMaximumGuesses();
-		/*
-		Took me a while to realize this, but these variables above? Fatal flaw in our code.
-
-		The purpose of BCGame is to be an instance of our game, with its own variables that we can easily keep track of.
-		However, these variables above are new, different, irrelevant. They are separate from our class and our BCGame instance!
-
-		I think. I think they are being assigned from the 'private' variables in the class in our header file.
-		*/
-		PrintIntroPrompt(WordLength, MaxGuesses);
-		/*
-		for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
-
-		initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
-		Now, however, we have instantiated it above to fit with our class, and we can simply say the following:
-		*/
-		for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
-		{
-			std::string Guess = GetPlayerGuess();
-			PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
-		}
-	} while (AskToPlayAgai()); // Remember, boolean variables should be prefixed with a small 'b' - Unreal standards
+		std::string Guess = GetPlayerGuess();
+		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
+	}
 }
 
 // Prints a prompt containing the word length that is separate from the introduction
@@ -96,35 +90,41 @@ void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesse
 {
 	int RemainingGuesses = (MaxGuesses - CurrentGuess);
 
-	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; }
+	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } // TODO switch!
 	else if (RemainingGuesses == 0) { std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
-	else							{	std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
+	else							{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
 }
 
-// Once the player has ran out of guesses, we taunt them for it
+// Once the player has ran out of guesses, we taunt them for it. This is placeholder until we can confirm a win condition.
 void PrintGameOver()
 {
-	// std::cout << "________________________________________________________________________________\n";
+	// TODO give more useful feedback post-game
 	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. Loser.\n";
 }
 
 // Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'
 bool AskToPlayAgain()
 {
-	std::string PlayerInput = "";
-
 	PrintGameOver();
-	std::cout << "________________________________________________________________________________\n";
-	std::cout << "Do you want to play again?\n";
-	std::cout << std::endl;
 
-	std::getline(std::cin, PlayerInput);
+	std::string PlayerInput = ""; 
+	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here
 
-	return (PlayerInput[0] == 'Y') || (PlayerInput[0] == 'y');
+	do 
+	{
+		std::cout << "________________________________________________________________________________\n";
+		std::cout << "Do you want to play again?\n";
+		std::cout << std::endl;
 
+		std::getline(std::cin, PlayerInput);
+		FirstLetter = tolower(PlayerInput[0]);
+	} 
+	while ((FirstLetter != 'y') && (FirstLetter != 'n')); // This will prompt the player to enter until they give us a Y or an N
+
+	return (FirstLetter == 'y');
 	/*
 	// As it turns out, the double pipe operator needs booleans either side of it, so 'Y' || 'y' is actually invalid.
 	// Furthermore, the solution given is far, far simpler and neater.
@@ -149,25 +149,4 @@ bool AskToPlayAgain()
 		std::cout << "\n\nPlease enter either 'Y' or 'N'";
 	}
 	*/
-}
-
-bool AskToPlayAgai()
-{
-	PrintGameOver();
-
-	std::string PlayerInput = "default";
-	char FirstLetter = tolower(PlayerInput[0]);
-
-	do
-	{
-		std::cout << "________________________________________________________________________________\n";
-		std::cout << "Do you want to play again?\n";
-		std::cout << std::endl;
-
-		std::getline(std::cin, PlayerInput);
-		FirstLetter = tolower(PlayerInput[0]);
-	} 
-	while ((FirstLetter != 'y') && (FirstLetter != 'n'));
-
-	return (FirstLetter == 'y');
 }

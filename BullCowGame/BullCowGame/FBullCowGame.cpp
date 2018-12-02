@@ -26,11 +26,14 @@ bool FBullCowGame::IsGameWon() const { return false; }
 // our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate
 void FBullCowGame::Reset()
 {
-	HiddenWordLength = 5;			// The biggest problem I had was solved by removing the 'int' in front of the variables here.
-	MyCurrentGuess = 1;				// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
+	constexpr int WORD_LENGTH = 5;			// The biggest problem I had was solved by removing the 'int' in front of the variables here.
+	HiddenWordLength = WORD_LENGTH;			// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
 
-	constexpr int MAX_TRIES = 5;
-	MyMaximumGuesses = MAX_TRIES; 
+	constexpr int CURRENT_GUESS = 1;			
+	MyCurrentGuess = CURRENT_GUESS;
+
+	constexpr int MAX_GUESSES = 5;
+	MyMaximumGuesses = MAX_GUESSES; 
 
 	return;
 }

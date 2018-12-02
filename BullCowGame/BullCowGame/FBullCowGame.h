@@ -8,7 +8,6 @@ std::string GetPlayerGuess();
 void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses);
 void PrintGameOver();
 bool AskToPlayAgain();
-bool AskToPlayAgai();
 
 class FBullCowGame
 {
@@ -23,8 +22,6 @@ public:
 	void Reset(); // TODO change this from void to a more rich return value
 	bool IsGuessValid(std::string PlayerGuess);
 	
-
-	int MyPublicVariable; // this is an example
 private:
 	// These private variables are only accessible via the functions inside of our class.
 	// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example
