@@ -59,29 +59,28 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 Remember to go through the class when creating definitions for class functions.
 */
 // here will be a function that counts bulls and cows, submits a VALID guess and then increases the turn count
-FBullCowCount FBullCowGame::SubmitGuess(FString)
+FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 {
-	// increment current guess
-
-	// Setup a return variable (why?)
 	FBullCowCount FBullCowCount;
 
-	// loop through all letters in the guess
-	for (int32 g = 0; g < HiddenWordLength; g++) 
+	for (int32 g = 0; g < HiddenWordLength; g++) // For all letters in 'Guess'
 	{
-		// compare letter against the hidden word
-		for (int32 h = 0; h < HiddenWordLength; h++)
+		for (int32 h = 0; h < HiddenWordLength; h++) // For all letters in 'HiddenWord'
 		{ 
-			// if the letter is in the word
-
-				// if the letter is in the right place
-
-					// increment bulls
-
-				// else if the letter is in the wrong place
-
-					// increment cows
-		}
+			if (PlayerGuess[g] == MyHiddenWord[h]) // if the letter is in the Hidden Word
+			{ 
+				if (g == h) // if the letter is in the right place
+				{ 
+					FBullCowCount.Bulls++;
+				}
+				else                      // else the letter must be in the wrong place
+				{ 
+					FBullCowCount.Cows++;
+				}
+			}
+		}			
 	}
+	MyCurrentGuess++;
+
 	return FBullCowCount;  // This function has a return type of 'struct'. I'm not sure why we need parentheses after the struct...
 }

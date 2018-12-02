@@ -35,7 +35,7 @@ public:
 	void Reset(); // TODO change this from void to a more rich return value
 	bool IsGuessValid(FString PlayerGuess);
 
-	FBullCowCount SubmitGuess(FString);
+	FBullCowCount SubmitGuess(FString PlayerGuess);
 	
 private:
 	// These private variables are only accessible via the functions inside of our class.
