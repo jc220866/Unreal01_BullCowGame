@@ -1,8 +1,2 @@
-﻿  FBullCowGame.cpp
-g:\university\unreal01_bullcowgame\bullcowgame\bullcowgame\fbullcowgame.h(13): error C2065: 'EGuessStatus': undeclared identifier
-g:\university\unreal01_bullcowgame\bullcowgame\bullcowgame\fbullcowgame.h(13): error C2146: syntax error: missing ')' before identifier 'GuessStatus'
-  Main.cpp
-g:\university\unreal01_bullcowgame\bullcowgame\bullcowgame\fbullcowgame.h(13): error C2065: 'EGuessStatus': undeclared identifier
-g:\university\unreal01_bullcowgame\bullcowgame\bullcowgame\fbullcowgame.h(13): error C2146: syntax error: missing ')' before identifier 'GuessStatus'
-g:\university\unreal01_bullcowgame\bullcowgame\bullcowgame\main.cpp(96): error C3861: 'PrintGuessFeedback': identifier not found
-  Generating Code...
+﻿  Main.cpp
+  BullCowGame.vcxproj -> G:\University\Unreal01_BullCowGame\BullCowGame\BullCowGame\Debug\BullCowGame.exe
