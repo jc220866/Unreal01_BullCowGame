@@ -19,7 +19,6 @@ struct FBullCowCount
 {
 	int32 Bulls = 0; // A struct is the same as a class, except its members are public by default. This means structs are idea for grouping together variables of simple data types.
 	int32 Cows = 0; // Our struct was causing errors around 'SubmitGuess()' when placed below the class.
-	
 };
 
 // enum class EGuessStatus
@@ -37,7 +36,7 @@ public:
 	FBullCowGame(); // This is a constructor.
 
 	FString GetHiddenWord() const;
-	int32 GetWordLength() const;
+	int32 GetHiddenWordLength() const;
 	int32 GetCurrentGuess() const;
 	int32 GetMaximumGuesses() const;
 	bool IsGameWon() const;

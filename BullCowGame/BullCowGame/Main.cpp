@@ -52,7 +52,7 @@ void PlayGame()
 	// The for loop itself simply plays the game an amount of times equal to 'MaxGuesses'.
 
 	BCGame.Reset(); // For now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all.
-	int32 WordLength = BCGame.GetWordLength();
+	int32 WordLength = BCGame.GetHiddenWordLength();
 	int32 CurrentGuess = BCGame.GetCurrentGuess();
 	int32 MaxGuesses = BCGame.GetMaximumGuesses();
 
