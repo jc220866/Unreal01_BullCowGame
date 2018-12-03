@@ -21,6 +21,14 @@ struct FBullCowCount
 	
 };
 
+enum class EGuessStatus
+{
+	Wrong_Length,		// Length of the guess is not equal to the length of the hidden word.
+	Not_Alphabetical,	// Non-letter characters were entered, such as '0' or '!'.
+	Repeating_Letters,	// Letters are repeating, meaning the guess is not an isogram.
+	OK
+};
+
 class FBullCowGame
 {
 public:
@@ -33,7 +41,7 @@ public:
 	bool IsGameWon() const;
 
 	void Reset(); // TODO change this from void to a more rich return value
-	bool IsGuessValid(FString PlayerGuess);
+	EGuessStatus IsGuessValid(FString PlayerGuess);
 
 	FBullCowCount SubmitGuess(FString PlayerGuess);
 	

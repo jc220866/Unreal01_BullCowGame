@@ -46,9 +46,27 @@ void FBullCowGame::Reset()
 	return;
 }
 
-bool FBullCowGame::IsGuessValid(FString PlayerGuess)
+EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 {
-	return false;
+	// if the guess is not the same length as the hidden word
+	if (PlayerGuess.length() != HiddenWordLength)
+	{
+		return EGuessStatus::Wrong_Length;
+	}
+	// if the guess is not entirely alphabetical
+	else if (false)
+	{
+		return EGuessStatus::Not_Alphabetical;
+	}
+	// if the guess has repeating letters
+	else if (false)
+	{
+		return EGuessStatus::Repeating_Letters;
+	}
+	else
+	{
+		return EGuessStatus::OK;
+	}
 }
 /*
 FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
