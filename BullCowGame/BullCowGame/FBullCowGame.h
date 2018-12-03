@@ -56,7 +56,7 @@ private:
 	int32 MyCurrentGuess;
 	int32 MyMaximumGuesses;
 	/*
-	A 'const' before a variable means the variable cannot be changed.
+	A 'const' before a variable means the variable cannot be modified.
 	Initially, 'MyMaximumGuesses' was a constant variable. However, this lead to me being unable to change its value in the constructor!
 	The solution was to create a constant variable, then assign MyMaximumGuesses the value of that constant variable.
 	*/
