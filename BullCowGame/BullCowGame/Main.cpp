@@ -88,27 +88,12 @@ FText GetValidGuess()
 	FText Guess = "";
 	EGuessStatus GuessStatus = EGuessStatus::Wrong_Length;
 
-	do // TODO check for valid guesses
+	do
 	{
 		std::cout << "Please enter your guess: ";
 		std::getline(std::cin, Guess);
 		GuessStatus = BCGame.IsGuessValid(Guess); 
-		
-		if (GuessStatus == EGuessStatus::Wrong_Length)
-		{
-			std::cout << "\nBoi your shit too short. Or too long. One of the two.\n";
-			std::cout << "________________________________________________________________________________\n";
-		}
-		else if (GuessStatus == EGuessStatus::Not_Alphabetical)
-		{
-			std::cout << "\nBoi that ain't even a word.\n";
-			std::cout << "________________________________________________________________________________\n";
-		}
-		else if (GuessStatus == EGuessStatus::Repeating_Letters)
-		{
-			std::cout << "\nBoi that ain't no isogram, there's repeating letters.\n";
-			std::cout << "________________________________________________________________________________\n";
-		}
+		PrintGuessFeedback(GuessStatus, Guess);
 	} 
 	while (GuessStatus != EGuessStatus::OK);
 
@@ -128,27 +113,30 @@ void PrintBullsAndCows(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
 }
-/*
-void PrintGuessFeedback(EGuessStatus GuessStatus, FText PlayerGuess)
+
+void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 {
 	if (GuessStatus == EGuessStatus::Wrong_Length)
 	{
-		std::cout << "Boi your shit too short. Or too long. One of the two.";
+		std::cout << "\nBoi your shit too short. Or too long. One of the two.\n";
+		std::cout << "________________________________________________________________________________\n";
 	}
 	else if (GuessStatus == EGuessStatus::Not_Alphabetical)
 	{
-		std::cout << "Boi that ain't even a word.";
+		std::cout << "\nBoi that ain't even a word.\n";
+		std::cout << "________________________________________________________________________________\n";
 	}
 	else if (GuessStatus == EGuessStatus::Repeating_Letters)
 	{
-		std::cout << "Boi that ain't no isogram, there's repeating letters.";
+		std::cout << "\nBoi that ain't no isogram, there's repeating letters.\n";
+		std::cout << "________________________________________________________________________________\n";
 	}
 	else
 	{
 		return;
 	}
 }
-*/
+
 // Once the player has ran out of guesses, we taunt them for it. This is placeholder until we can confirm a win condition.
 void PrintGameOver()
 {
