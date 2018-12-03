@@ -66,9 +66,9 @@ void PlayGame()
 	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
 	{
 		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
-		FText Guess = GetPlayerGuess();
+		FText Guess = GetValidGuess();
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
-		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses, BullCowCount);
+		PrintBullsAndCows(Guess, CurrentGuess, MaxGuesses, BullCowCount);
 	}
 }
 
@@ -82,21 +82,26 @@ void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses)
 	std::cout << "________________________________________________________________________________\n";
 }
 
-// Receives player's input for their guess.
-FText GetPlayerGuess()
+// Receives player's input for their guess, repeats until they enter a valid guess.
+FText GetValidGuess()
 {
-	// TODO check for valid guesses
-
 	FText Guess = "";
-	std::cout << "Please enter your guess: ";
-	std::getline(std::cin, Guess);
-	
-	// return a valid guess to the game
+	EGuessStatus GuessStatus = EGuessStatus::Wrong_Length;
+
+	do // TODO check for valid guesses
+	{
+		std::cout << "Please enter your guess: ";
+		std::getline(std::cin, Guess);
+		GuessStatus = BCGame.IsGuessValid(Guess);
+		PrintGuessFeedback(GuessStatus, Guess);
+	} 
+	while (GuessStatus != EGuessStatus::OK);
+
 	return Guess;
 }
 
 // After receiving the player's guess, we give them the bulls and cows of their guess.
-void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, FBullCowCount BullCowCount)
+void PrintBullsAndCows(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, FBullCowCount BullCowCount)
 {
 	int32 RemainingGuesses = (MaxGuesses - CurrentGuess);
 	int32 Bulls = BullCowCount.Bulls;
@@ -107,6 +112,26 @@ void PrintGuessFeedback(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses,
 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
+}
+
+void PrintGuessFeedback(EGuessStatus GuessStatus, FText PlayerGuess)
+{
+	if (GuessStatus == EGuessStatus::Wrong_Length)
+	{
+		std::cout << "Boi your shit too short. Or too long. One of the two.";
+	}
+	else if (GuessStatus == EGuessStatus::Not_Alphabetical)
+	{
+		std::cout << "Boi that ain't even a word.";
+	}
+	else if (GuessStatus == EGuessStatus::Repeating_Letters)
+	{
+		std::cout << "Boi that ain't no isogram, there's repeating letters.";
+	}
+	else
+	{
+		return;
+	}
 }
 
 // Once the player has ran out of guesses, we taunt them for it. This is placeholder until we can confirm a win condition.

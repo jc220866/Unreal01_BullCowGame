@@ -8,8 +8,9 @@ using int32 = int;
 void PrintIntroduction();
 void PlayGame();
 void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses); // Remember to define the type of our parameter. For example, here it is an 'int'.
-FString GetPlayerGuess();
-void PrintGuessFeedback(FString PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, struct FBullCowCount); // This shows an error because string's alias in main.cpp is 'FText'. 
+FString GetValidGuess();
+void PrintBullsAndCows(FString PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, struct FBullCowCount); // This shows an error because string's alias in main.cpp is 'FText'. 
+void PrintGuessFeedback(EGuessStatus GuessStatus, FString PlayerGuess);
 void PrintGameOver();
 bool AskToPlayAgain();
 
