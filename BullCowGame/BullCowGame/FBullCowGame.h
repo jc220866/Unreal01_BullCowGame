@@ -52,7 +52,6 @@ private:
 
 	// These variables are 'declared' AND 'initialized' here in private at compile-time, but are assigned NEW values in the constructor at run-time.
 	FString MyHiddenWord;
-	int32 HiddenWordLength;
 	int32 MyCurrentGuess;
 	int32 MyMaximumGuesses;
 	/*

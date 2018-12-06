@@ -78,9 +78,9 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 {
 	FBullCowCount FBullCowCount;
 
-	for (int32 g = 0; g < HiddenWordLength; g++) // For all letters in 'Guess'
+	for (int32 g = 0; g < GetHiddenWordLength(); g++) // For all letters in 'Guess'
 	{
-		for (int32 h = 0; h < HiddenWordLength; h++) // For all letters in 'HiddenWord'
+		for (int32 h = 0; h < GetHiddenWordLength(); h++) // For all letters in 'HiddenWord'
 		{ 
 			if (PlayerGuess[g] == MyHiddenWord[h]) // if the letter is in the Hidden Word
 			{ 
