@@ -56,7 +56,7 @@ void PlayGame()
 	int32 CurrentGuess = BCGame.GetCurrentGuess();
 	int32 MaxGuesses = BCGame.GetMaximumGuesses();
 	FText Guess = "";
-	EGuessStatus GuessStatus = EGuessStatus::OK;
+	EGuessStatus GuessStatus = EGuessStatus::Default;
 
 	PrintIntroPrompt(WordLength, MaxGuesses);
 	/*

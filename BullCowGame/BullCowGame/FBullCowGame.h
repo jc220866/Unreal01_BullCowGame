@@ -24,6 +24,7 @@ struct FBullCowCount
 // enum class EGuessStatus
 enum EGuessStatus
 {
+	Default,			// It's good practice to make an initial value with which to declare the status.
 	Wrong_Length,		// Length of the guess is not equal to the length of the hidden word.
 	Not_Alphabetical,	// Non-letter characters were entered, such as '0' or '!'.
 	Repeating_Letters,	// Letters are repeating, meaning the guess is not an isogram.
