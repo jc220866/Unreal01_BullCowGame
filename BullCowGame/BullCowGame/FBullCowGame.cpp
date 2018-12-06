@@ -22,11 +22,11 @@ int32 FBullCowGame::GetCurrentGuess() const { return MyCurrentGuess; }
 int32 FBullCowGame::GetMaximumGuesses() const { return MyMaximumGuesses; } 
 
 bool FBullCowGame::IsGameWon() const { return false; }
-/*	A const after a function means the function cannot change any variables
-	A function should be const if its only purpose is to get information or answer a question
-
-	However, functions that are not a member of a class cannot be const.	*/
-
+/*	
+A const after a function means the function cannot change any variables
+A function should be const if its only purpose is to get information or answer a question
+However, functions that are not a member of a class cannot be const.	
+*/
 
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
@@ -34,7 +34,7 @@ void FBullCowGame::Reset()
 	const FString HIDDEN_WORD = "Loser";
 	MyHiddenWord = HIDDEN_WORD;						
 													
-	constexpr int32 CURRENT_GUESS = 1;			
+	constexpr int32 CURRENT_GUESS = 0;			
 	MyCurrentGuess = CURRENT_GUESS;			// The biggest problem I had was solved by removing the 'int' in front of the new (non-const) variables here.  
 											// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
 	constexpr int32 MAX_GUESSES = 5;
@@ -88,7 +88,7 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 				{ 
 					FBullCowCount.Bulls++;
 				}
-				else                      // else the letter must be in the wrong place
+				else        // else the letter must be in the wrong place
 				{ 
 					FBullCowCount.Cows++;
 				}
@@ -97,5 +97,5 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 	}
 	MyCurrentGuess++;
 
-	return FBullCowCount;  // This function has a return type of 'struct'. I'm not sure why we need parentheses after the struct...
+	return FBullCowCount; 
 }

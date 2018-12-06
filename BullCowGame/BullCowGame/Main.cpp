@@ -53,7 +53,6 @@ void PlayGame()
 
 	BCGame.Reset(); // For now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all.
 	int32 WordLength = BCGame.GetHiddenWordLength();
-	int32 CurrentGuess = BCGame.GetCurrentGuess();
 	int32 MaxGuesses = BCGame.GetMaximumGuesses();
 	FText Guess = "";
 	EGuessStatus GuessStatus = EGuessStatus::Default;
@@ -65,7 +64,7 @@ void PlayGame()
 	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
 	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	
 	*/
-	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++) // TODO convert the 'for' loop to a 'while' loop
+	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentGuess() < MaxGuesses ) )
 	{
 		do // loops until the guess is valid
 		{
@@ -76,7 +75,7 @@ void PlayGame()
 		while (GuessStatus != EGuessStatus::OK);
 
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
-		PrintBullsAndCows(Guess, CurrentGuess, MaxGuesses, BullCowCount);
+		PrintBullsAndCows(Guess, BCGame.GetCurrentGuess(), MaxGuesses, BullCowCount);
 	}
 }
 
@@ -131,7 +130,7 @@ void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 		std::cout << "\nBoi that ain't no isogram, there's repeating letters.\n";
 		std::cout << "________________________________________________________________________________\n";
 		break;
-	default:
+	default: // If guess status is none of the above three, we assume the guess is OK.
 		return;
 	}
 }
