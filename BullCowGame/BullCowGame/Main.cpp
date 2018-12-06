@@ -64,7 +64,7 @@ void PlayGame()
 	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
 	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	
 	*/
-	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentGuess() < MaxGuesses ) )
+	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentAttempt() < MaxGuesses ) )
 	{
 		do // loops until the guess is valid
 		{
@@ -75,8 +75,9 @@ void PlayGame()
 		while (GuessStatus != EGuessStatus::OK);
 
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
-		PrintBullsAndCows(Guess, BCGame.GetCurrentGuess(), MaxGuesses, BullCowCount);
+		PrintBullsAndCows(Guess, BCGame.GetCurrentAttempt(), MaxGuesses, BullCowCount);
 	}
+	PrintGameSummary();
 }
 
 // Prints a prompt containing the word length that is separate from the introduction.
@@ -135,18 +136,23 @@ void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 	}
 }
 
-// Once the player has ran out of guesses, we taunt them for it. This is placeholder until we can confirm a win condition.
-void PrintGameOver()
+void PrintGameSummary()
 {
-	// TODO give more useful feedback post-game
-	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. " << BCGame.GetHiddenWord() <<".\n";
+	if (BCGame.IsGameWon()) // The user has correctly guessed the word before running out of guesses.
+	{
+		std::cout << "It appears that you are victorious. The hidden word was indeed '" << BCGame.GetHiddenWord() << "'.\n\n";
+		
+		std::cout << "I suppose a congratulations is in order? Running congratulations.exe...\n";
+	}
+	else // If we got here, the user must have ran out of guesses.
+	{
+		std::cout << "You have definitely lost. I can tell, because you're out of guesses. " << BCGame.GetHiddenWord() << ".\n";
+	}
 }
 
 // Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'.
 bool AskToPlayAgain()
-{
-	PrintGameOver();
-
+{	
 	FText PlayerInput = ""; 
 	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here.
 

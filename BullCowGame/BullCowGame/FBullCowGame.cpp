@@ -13,15 +13,18 @@ FString FBullCowGame::GetHiddenWord() const { return MyHiddenWord; }
 
 int32 FBullCowGame::GetHiddenWordLength() const { return MyHiddenWord.length(); }
 /*
-When I was implementing MyCurrentGuess from a class instead of inside a for loop,
-it was giving me 6 turns. That's because I forgot to say 'return MyCurrentGuess',
+When I was implementing MyCurrentAttempt from a class instead of inside a for loop,
+it was giving me 6 turns. That's because I forgot to say 'return MyCurrentAttempt',
 it said 'return 0;', so it was returning '0', giving me an extra turn. Oops!
 */
-int32 FBullCowGame::GetCurrentGuess() const { return MyCurrentGuess; }
+int32 FBullCowGame::GetCurrentAttempt() const { return MyCurrentAttempt; }
 
 int32 FBullCowGame::GetMaximumGuesses() const { return MyMaximumGuesses; } 
 
-bool FBullCowGame::IsGameWon() const { return false; }
+bool FBullCowGame::IsGameWon() const 
+{ 
+	return bGameIsWon; 
+}
 /*	
 A const after a function means the function cannot change any variables
 A function should be const if its only purpose is to get information or answer a question
@@ -35,10 +38,12 @@ void FBullCowGame::Reset()
 	MyHiddenWord = HIDDEN_WORD;						
 													
 	constexpr int32 CURRENT_GUESS = 0;			
-	MyCurrentGuess = CURRENT_GUESS;			// The biggest problem I had was solved by removing the 'int' in front of the new (non-const) variables here.  
+	MyCurrentAttempt = CURRENT_GUESS;			// The biggest problem I had was solved by removing the 'int' in front of the new (non-const) variables here.  
 											// By putting int there, I was initializing new variables, instead of making changes to the existing ones like I actually wanted to.
 	constexpr int32 MAX_GUESSES = 5;
 	MyMaximumGuesses = MAX_GUESSES; 
+
+	bGameIsWon = false;
 
 	return;
 }
@@ -95,7 +100,12 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 			}
 		}			
 	}
-	MyCurrentGuess++;
+	MyCurrentAttempt++;
+
+	if (FBullCowCount.Bulls == GetHiddenWordLength())
+	{
+		bGameIsWon = true;
+	}
 
 	return FBullCowCount; 
 }

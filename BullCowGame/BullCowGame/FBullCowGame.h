@@ -11,7 +11,7 @@ void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses); // Remember to define
 FString GetPlayerGuess();
 void PrintBullsAndCows(FString PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, struct FBullCowCount); // This shows an error because string's alias in main.cpp is 'FText'. 
 void PrintGuessFeedback(enum EGuessStatus GuessStatus, FString PlayerGuess);
-void PrintGameOver();
+void PrintGameSummary();
 bool AskToPlayAgain();
 
 // Values of 'bulls' and 'cows' initialized to 0.
@@ -38,7 +38,7 @@ public:
 
 	FString GetHiddenWord() const;
 	int32 GetHiddenWordLength() const;
-	int32 GetCurrentGuess() const;
+	int32 GetCurrentAttempt() const;
 	int32 GetMaximumGuesses() const;
 	bool IsGameWon() const;
 
@@ -53,8 +53,9 @@ private:
 
 	// These variables are 'declared' AND 'initialized' here in private at compile-time, but are assigned NEW values in the constructor at run-time.
 	FString MyHiddenWord;
-	int32 MyCurrentGuess;
+	int32 MyCurrentAttempt;
 	int32 MyMaximumGuesses;
+	bool bGameIsWon;
 	/*
 	A 'const' before a variable means the variable cannot be modified.
 	Initially, 'MyMaximumGuesses' was a constant variable. However, this lead to me being unable to change its value in the constructor!
