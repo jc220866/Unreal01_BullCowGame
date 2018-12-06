@@ -123,14 +123,17 @@ void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 		std::cout << "\nBoi your shit too short. Or too long. One of the two.\n";
 		std::cout << "________________________________________________________________________________\n";
 		break;
+
 	case EGuessStatus::Not_Alphabetical:
 		std::cout << "\nBoi that ain't even a word.\n";
 		std::cout << "________________________________________________________________________________\n";
 		break;
+
 	case EGuessStatus::Repeating_Letters:
 		std::cout << "\nBoi that ain't no isogram, there's repeating letters.\n";
 		std::cout << "________________________________________________________________________________\n";
 		break;
+
 	default: // If guess status is none of the above three, we assume the guess is OK.
 		return;
 	}
@@ -142,7 +145,15 @@ void PrintGameSummary()
 	{
 		std::cout << "It appears that you are victorious. The hidden word was indeed '" << BCGame.GetHiddenWord() << "'.\n\n";
 		
-		std::cout << "I suppose a congratulations is in order? Running congratulations.exe...\n";
+		if (BCGame.GetCurrentAttempt() == 1)
+		{
+			std::cout << "You only used --> " << BCGame.GetCurrentAttempt() << " <-- guess. I suppose a congratulations is in order?\n\n";
+		}
+		else
+		{
+			std::cout << "You used a total of --> " << BCGame.GetCurrentAttempt() << " <-- guesses. I suppose a congratulations is in order?\n\n";
+		}
+		std::cout << "Running congratulations.exe...\n";
 	}
 	else // If we got here, the user must have ran out of guesses.
 	{
