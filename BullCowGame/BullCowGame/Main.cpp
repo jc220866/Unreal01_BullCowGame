@@ -55,6 +55,8 @@ void PlayGame()
 	int32 WordLength = BCGame.GetHiddenWordLength();
 	int32 CurrentGuess = BCGame.GetCurrentGuess();
 	int32 MaxGuesses = BCGame.GetMaximumGuesses();
+	FText Guess = "";
+	EGuessStatus GuessStatus = EGuessStatus::OK;
 
 	PrintIntroPrompt(WordLength, MaxGuesses);
 	/*
@@ -63,10 +65,16 @@ void PlayGame()
 	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
 	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	
 	*/
-	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
+	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++) // TODO convert the 'for' loop to a 'while' loop
 	{
-		// TODO convert the 'for' loop to a 'while' loop, just in case the user enters an invalid guess
-		FText Guess = GetValidGuess();
+		do // loops until the guess is valid
+		{
+			Guess = GetPlayerGuess();
+			GuessStatus = BCGame.IsGuessValid(Guess);
+			PrintGuessFeedback(GuessStatus, Guess);
+		}
+		while (GuessStatus != EGuessStatus::OK);
+
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
 		PrintBullsAndCows(Guess, CurrentGuess, MaxGuesses, BullCowCount);
 	}
@@ -83,19 +91,12 @@ void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses)
 }
 
 // Receives player's input for their guess, repeats until they enter a valid guess.
-FText GetValidGuess()
+FText GetPlayerGuess()
 {
 	FText Guess = "";
-	EGuessStatus GuessStatus = EGuessStatus::Wrong_Length;
 
-	do
-	{
-		std::cout << "Please enter your guess: ";
-		std::getline(std::cin, Guess);
-		GuessStatus = BCGame.IsGuessValid(Guess); 
-		PrintGuessFeedback(GuessStatus, Guess);
-	} 
-	while (GuessStatus != EGuessStatus::OK);
+	std::cout << "Please enter your guess: ";
+	std::getline(std::cin, Guess);
 
 	return Guess;
 }
