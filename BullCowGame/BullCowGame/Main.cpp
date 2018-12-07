@@ -145,11 +145,11 @@ void PrintGameSummary()
 	{
 		std::cout << "It appears that you are victorious. The hidden word was indeed '" << BCGame.GetHiddenWord() << "'.\n\n";
 		
-		if (BCGame.GetCurrentAttempt() == 1)
+		if (BCGame.GetCurrentAttempt() == 1) // If they only took 1 guess to win (to avoid grammatical error).
 		{
 			std::cout << "You only used --> " << BCGame.GetCurrentAttempt() << " <-- guess. I suppose a congratulations is in order?\n\n";
 		}
-		else
+		else // They took multiple guesses to win.
 		{
 			std::cout << "You used a total of --> " << BCGame.GetCurrentAttempt() << " <-- guesses. I suppose a congratulations is in order?\n\n";
 		}
