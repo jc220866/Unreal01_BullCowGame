@@ -2,6 +2,10 @@
 # include <string>
 # include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards.
 
+// FText vs FString = FStrings are mutable and can be manipulated, FText are immutable and generally used for interaction with the player.
+using FText = std::string;
+using int32 = int;
+
 FBullCowGame BCGame; /* Instance of our class. This also effectively calls the BCGame.Reset() function.
 
 					 My understanding is: When we instantiate a class, we are simply making a big block of variables
@@ -13,7 +17,7 @@ FBullCowGame BCGame; /* Instance of our class. This also effectively calls the B
 					 we are doing a 'copy and paste' so we can make our own copy of that template and change it as we desire.
 					 */
 
-// This is the (first?) thing our code does, the entrypoint of our program.
+// Anything in 'main()' is the first thing our code does, the entry-point of our program.
 int main()
 {
 	PrintIntroduction();
@@ -48,26 +52,36 @@ void PlayGame()
 	// The for loop itself simply plays the game an amount of times equal to 'MaxGuesses'.
 
 	BCGame.Reset(); // For now, Reset() is useless because our 'CurrentGuess' is not tied to the game instance at all.
-	int WordLength = BCGame.GetWordLength();
-	int CurrentGuess = BCGame.GetCurrentGuess();
-	int MaxGuesses = BCGame.GetMaximumGuesses();
+	int32 WordLength = BCGame.GetHiddenWordLength();
+	int32 MaxGuesses = BCGame.GetMaximumGuesses();
+	FText Guess = "";
+	EGuessStatus GuessStatus = EGuessStatus::Default;
 
 	PrintIntroPrompt(WordLength, MaxGuesses);
 	/*
 	for (int CurrentGuess = 1; CurrentGuess <= MaxGuesses; CurrentGuess++)
 
 	initially this was 'for (int CurrentGuess = 1)' because we were instantiating the guess inside the for loop
-	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	*/
-	for (CurrentGuess; CurrentGuess <= MaxGuesses; CurrentGuess++)
+	Now, however, we have instantiated it above to fit with the variables we created above , and we can simply say the following:	
+	*/
+	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentAttempt() < MaxGuesses ) )
 	{
-		// TODO convert the 'for' loop to a 'while' loop
-		std::string Guess = GetPlayerGuess();
-		PrintGuessFeedback(Guess, CurrentGuess, MaxGuesses);
+		do // loops until the guess is valid
+		{
+			Guess = GetPlayerGuess();
+			GuessStatus = BCGame.IsGuessValid(Guess);
+			PrintGuessFeedback(GuessStatus, Guess);
+		}
+		while (GuessStatus != EGuessStatus::OK);
+
+		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
+		PrintBullsAndCows(Guess, BCGame.GetCurrentAttempt(), MaxGuesses, BullCowCount);
 	}
+	PrintGameSummary();
 }
 
 // Prints a prompt containing the word length that is separate from the introduction.
-void PrintIntroPrompt(int WordLength, int MaxGuesses)
+void PrintIntroPrompt(int32 WordLength, int32 MaxGuesses)
 {
 	std::cout << "________________________________________________________________________________\n";
 	std::cout << "----------- Can you guess the --> " << WordLength << " <-- letter word I'm thinking of? -----------\n\n";
@@ -76,45 +90,81 @@ void PrintIntroPrompt(int WordLength, int MaxGuesses)
 	std::cout << "________________________________________________________________________________\n";
 }
 
-// Receives player's input for their guess.
-std::string GetPlayerGuess()
+// Receives player's input for their guess, repeats until they enter a valid guess.
+FText GetPlayerGuess()
 {
-	// TODO check for valid guesses
+	FText Guess = "";
 
-	std::string Guess = "";
 	std::cout << "Please enter your guess: ";
 	std::getline(std::cin, Guess);
-	
-	// return a VALID guess to the game
+
 	return Guess;
 }
 
 // After receiving the player's guess, we give them the bulls and cows of their guess.
-void PrintGuessFeedback(std::string PlayerGuess, int CurrentGuess, int MaxGuesses)
+void PrintBullsAndCows(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, FBullCowCount BullCowCount)
 {
-	int RemainingGuesses = (MaxGuesses - CurrentGuess);
+	int32 RemainingGuesses = (MaxGuesses - CurrentGuess);
+	int32 Bulls = BullCowCount.Bulls;
+	int32 Cows = BullCowCount.Cows;
 
-	if (RemainingGuesses == 1)		{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guess left. -----"; } // TODO switch!
-	else if (RemainingGuesses == 0) { std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
-	else							{ std::cout << "\n--- You scored 0 bulls and 0 cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
+	if (RemainingGuesses == 1)	{ std::cout << "\n--- You scored " << Bulls << " bulls and " << Cows << " cows -------------------------- " << RemainingGuesses << " guess left. -----"; }
+	else						{ std::cout << "\n--- You scored " << Bulls << " bulls and " << Cows << " cows -------------------------- " << RemainingGuesses << " guesses left. ---"; }
 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
 }
 
-// Once the player has ran out of guesses, we taunt them for it. This is placeholder until we can confirm a win condition.
-void PrintGameOver()
+void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 {
-	// TODO give more useful feedback post-game
-	std::cout << "You lost. Probably. I can't really tell, but 0 isn't a lot of guesses. Loser.\n";
+	switch (GuessStatus)
+	{
+	case EGuessStatus::Wrong_Length:
+		std::cout << "\nBoi your shit too short. Or too long. One of the two.\n";
+		std::cout << "________________________________________________________________________________\n";
+		break;
+
+	case EGuessStatus::Not_Alphabetical:
+		std::cout << "\nBoi that ain't even a word.\n";
+		std::cout << "________________________________________________________________________________\n";
+		break;
+
+	case EGuessStatus::Repeating_Letters:
+		std::cout << "\nBoi that ain't no isogram, there's repeating letters.\n";
+		std::cout << "________________________________________________________________________________\n";
+		break;
+
+	default: // If guess status is none of the above three, we assume the guess is OK.
+		return;
+	}
+}
+
+void PrintGameSummary()
+{
+	if (BCGame.IsGameWon()) // The user has correctly guessed the word before running out of guesses.
+	{
+		std::cout << "It appears that you are victorious. The hidden word was indeed '" << BCGame.GetHiddenWord() << "'.\n\n";
+		
+		if (BCGame.GetCurrentAttempt() == 1)
+		{
+			std::cout << "You only used --> " << BCGame.GetCurrentAttempt() << " <-- guess. I suppose a congratulations is in order?\n\n";
+		}
+		else
+		{
+			std::cout << "You used a total of --> " << BCGame.GetCurrentAttempt() << " <-- guesses. I suppose a congratulations is in order?\n\n";
+		}
+		std::cout << "Running congratulations.exe...\n";
+	}
+	else // If we got here, the user must have ran out of guesses.
+	{
+		std::cout << "You have definitely lost. I can tell, because you're out of guesses. " << BCGame.GetHiddenWord() << ".\n";
+	}
 }
 
 // Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'.
 bool AskToPlayAgain()
-{
-	PrintGameOver();
-
-	std::string PlayerInput = ""; 
+{	
+	FText PlayerInput = ""; 
 	char FirstLetter = '0'; // FirstLetter needs to be initialized outside of the 'do' loop, any single character value would work here.
 
 	do 
