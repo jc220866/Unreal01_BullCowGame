@@ -1,3 +1,4 @@
+# pragma once
 # include <iostream>
 # include <string>
 # include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards.
