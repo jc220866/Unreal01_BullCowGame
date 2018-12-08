@@ -69,7 +69,7 @@ void PlayGame()
 	*/
 	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentAttempt() < MaxGuesses ) )
 	{
-		do // loops until the guess is valid
+		do // Loops until the guess is valid.
 		{
 			Guess = GetPlayerGuess();
 			GuessStatus = BCGame.IsGuessValid(Guess);
