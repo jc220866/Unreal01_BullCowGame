@@ -17,6 +17,7 @@ Map (same as 'dict'?),
 Set (basically a list?),
 Array (owo whats this), 
 std::pair (used in structs to essentially create a tuple)
+std::vector (now we're taking the piss, there's so many data types)
 */
 
 // FText vs FString = FStrings are mutable and can be manipulated, FText are immutable and generally used for interaction with the player.
@@ -85,10 +86,15 @@ private:
 	void ReportBug(FString LocationOfError) const;
 
 	// Here is our list of possible hidden words. I may come back and flesh this game out a bit more, including 'difficulty' selection like max guesses and word length.
-	FString PossibleHiddenWords[1000] = { "Loser", "Slime", "Plane", "Right", "Score", "Alien", "Robin", "Corny",
+	FString PossibleHiddenWords[25] = { "Loser", "Slime", "Plane", "Right", "Score", "Alien", "Robin", "Corny",
 		"Extra", "Handy", "Dingo", "Rifle", "Shark", "Topaz", "Oscar", "Ripen", "Minty", "Brown", "Quiet", "Squid", 
 		"Rainy", "Noise" , "Tiger", "Snake", "Brine" };
 	// I don't like initializing the array to be a size of 1000, but it's more convenient than increasing the number every time I think of a new isogram.
+	/* 
+	Implementing this randomness was a little confusing and frustrating.
+	I don't have a very good grasp on advanced data types at all. 
+	I expect everything to be simple and intuitive like Python's data types, but it's a total mess.
+	*/
 
 	// , ""
 };

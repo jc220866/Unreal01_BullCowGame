@@ -1,3 +1,4 @@
+# pragma once
 # include <iostream>
 # include <string>
 # include "FBullCowGame.h" // "Most other classes are prefixed by F" - Unreal standards.
@@ -68,7 +69,7 @@ void PlayGame()
 	*/
 	while ( ( ! BCGame.IsGameWon() ) && ( BCGame.GetCurrentAttempt() < MaxGuesses ) )
 	{
-		do // loops until the guess is valid
+		do // Loops until the guess is valid.
 		{
 			Guess = GetPlayerGuess();
 			GuessStatus = BCGame.IsGuessValid(Guess);

@@ -1,3 +1,4 @@
+# pragma once
 # include "FBullCowGame.h"
 # include <string>
 # include <iostream>
@@ -36,8 +37,9 @@ However, functions that are not a member of a class cannot be const.
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
-	const FString HIDDEN_WORD = PossibleHiddenWords[rand() % PossibleHiddenWords->length()]; // Even though the array is 1000 long, 'length' function still works. I guess?
-	MyHiddenWord = HIDDEN_WORD;
+	int random = rand() % (sizeof(PossibleHiddenWords) / sizeof(PossibleHiddenWords[0])); // This calculates how many words are in the array of possible hidden words.
+	const FString HIDDEN_WORD = PossibleHiddenWords[rand() % random]; // It accomplishes this because 'sizeof' is the size in bytes of the entire array.
+	MyHiddenWord = HIDDEN_WORD;							// So 'sizeof array' / 'size of array[0]' = 'how many elements in the array'. Hacky but it works.
 
 	constexpr int32 CURRENT_GUESS = 0;
 	MyCurrentAttempt = CURRENT_GUESS;			// The biggest problem I had was solved by removing the 'int' in front of the new (non-const) variables here.  
