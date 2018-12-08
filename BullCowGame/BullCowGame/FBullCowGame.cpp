@@ -71,6 +71,7 @@ EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 	}
 }
 
+// Checks to see if any single character in a guess appears twice. We use the term 'character' as this function also works for numbers and symbols.
 bool FBullCowGame::IsIsogram(FString PlayerGuess) const
 {
 	// treat 0 and 1 length guesses as isograms, they can't possibly contain repeating characters
@@ -79,22 +80,24 @@ bool FBullCowGame::IsIsogram(FString PlayerGuess) const
 	// create a map of chars and bools
 	TMap<char, bool> CharacterSeen;
 
-	// for each letter in guess
-	for (auto Character : PlayerGuess)
+	// for each character in guess
+	for (auto Character : PlayerGuess) // The type 'auto' means the compiler decides the type for us, similar to Python's 'duck-type'. Generally bad practice, but useful here.
 	{
-		// do tolower() on the letter
+		// do tolower() on the character
 		Character = tolower(Character);
 
-		// if the letter IS already in the map
+		// if the character IS already in the map (and has the value of true)
 		if (CharacterSeen[Character])
+		// When interrogating the 'map' in this if-statement's condition, it has to add the character to the map AND DEFAULT IT TO FALSE to even provide an answer.
+		// Because it defaults to false, the if-statement's condition itself is also 'false', so we skip to the 'else' part.
 		{ 
 			// return false (as the guess is not an isogram)
 			return false;
 		}
-		// else the letter is not already in the map
+		// else the character wasn't already in the map (does not already have the value of true)
 		else
 		{ 
-			// add the letter to the map (along with value of 'true' which means 'letter has been seen')
+			// change the value of the character to true (to essentially say 'we have seen this character')
 			CharacterSeen[Character] = true;
 		}
 	}
