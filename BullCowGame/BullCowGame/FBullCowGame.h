@@ -79,4 +79,6 @@ private:
 	*/
 
 	bool IsIsogram(FString PlayerGuess) const;
+	bool IsAlphabetical(FString PlayerGuess) const;
+	void ReportBug(FString LocationOfError) const;
 };
