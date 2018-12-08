@@ -1,5 +1,21 @@
 # pragma once
 # include <string>
+# include <map>
+
+#define TMap std::map
+/*
+Incase you're wondering why we can't just use 'using' here, that's essentially because std::map requires parameters (<char, bool>).
+We could say " using TMap = std::map<char, bool>; ", that would be valid, if not a little specific and restrictive.
+https://community.gamedev.tv/t/using-std-map/34204/9
+*/
+
+/*
+// TODO advanced data types to keep an eye on: 
+Map (same as 'dict'?), 
+Set (basically a list?),
+Array (owo whats this), 
+std::pair (used in structs to essentially create a tuple)
+*/
 
 // FText vs FString = FStrings are mutable and can be manipulated, FText are immutable and generally used for interaction with the player.
 using FString = std::string;
@@ -61,4 +77,6 @@ private:
 	Initially, 'MyMaximumGuesses' was a constant variable. However, this lead to me being unable to change its value in the constructor!
 	The solution was to create a constant variable, then assign MyMaximumGuesses the value of that constant variable.
 	*/
+
+	bool IsIsogram(FString PlayerGuess) const;
 };

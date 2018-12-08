@@ -43,6 +43,8 @@ void PrintIntroduction()
 
 	std::cout << "If you get a COW, then one of your letters is right, but in the wrong place.\n";
 	std::cout << "If you get a BULL, then one of your letters is right AND in the right place.\n";
+
+	return;
 }
 
 // Runs 'get guess' and 'print feedback' in a loop until the player is out of guesses.
@@ -78,6 +80,8 @@ void PlayGame()
 		PrintBullsAndCows(Guess, BCGame.GetCurrentAttempt(), MaxGuesses, BullCowCount);
 	}
 	PrintGameSummary();
+
+	return;
 }
 
 // Prints a prompt containing the word length that is separate from the introduction.
@@ -113,6 +117,8 @@ void PrintBullsAndCows(FText PlayerGuess, int32 CurrentGuess, int32 MaxGuesses, 
 
 	std::cout << "________________________________________________________________________________";
 	std::cout << std::endl;
+
+	return;
 }
 
 void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
@@ -135,8 +141,10 @@ void PrintGuessFeedback(enum EGuessStatus GuessStatus, FText PlayerGuess)
 		break;
 
 	default: // If guess status is none of the above three, we assume the guess is OK.
-		return;
+		break;
 	}
+
+	return;
 }
 
 void PrintGameSummary()
@@ -159,6 +167,7 @@ void PrintGameSummary()
 	{
 		std::cout << "You have definitely lost. I can tell, because you're out of guesses. " << BCGame.GetHiddenWord() << ".\n";
 	}
+	return;
 }
 
 // Once the player has given a response to this prompt, we return 'true' if the first letter of response was the letter 'Y'.

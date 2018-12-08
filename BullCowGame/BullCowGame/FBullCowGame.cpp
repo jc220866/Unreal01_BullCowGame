@@ -34,7 +34,7 @@ However, functions that are not a member of a class cannot be const.
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
-	const FString HIDDEN_WORD = "Loser";
+	const FString HIDDEN_WORD = "Loser"; // TODO get this to choose from a list (or a set/array) of words
 	MyHiddenWord = HIDDEN_WORD;						
 													
 	constexpr int32 CURRENT_GUESS = 0;			
@@ -61,7 +61,7 @@ EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 		return EGuessStatus::Not_Alphabetical;
 	}
 	// if the guess has repeating letters
-	else if (false)
+	else if ( ! IsIsogram(PlayerGuess))
 	{
 		return EGuessStatus::Repeating_Letters;
 	}
@@ -69,6 +69,36 @@ EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 	{
 		return EGuessStatus::OK;
 	}
+}
+
+bool FBullCowGame::IsIsogram(FString PlayerGuess) const
+{
+	// treat 0 and 1 length guesses as isograms, they can't possibly contain repeating characters
+	if (PlayerGuess.length() <= 1) { return true; }
+
+	// create a map of chars and bools
+	TMap<char, bool> CharacterSeen;
+
+	// for each letter in guess
+	for (auto Character : PlayerGuess)
+	{
+		// do tolower() on the letter
+		Character = tolower(Character);
+
+		// if the letter IS already in the map
+		if (CharacterSeen[Character])
+		{ 
+			// return false (as the guess is not an isogram)
+			return false;
+		}
+		// else the letter is not already in the map
+		else
+		{ 
+			// add the letter to the map (along with value of 'true' which means 'letter has been seen')
+			CharacterSeen[Character] = true;
+		}
+	}
+	return true;
 }
 /*
 FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
@@ -87,7 +117,7 @@ FBullCowCount FBullCowGame::SubmitGuess(FString PlayerGuess)
 	{
 		for (int32 h = 0; h < GetHiddenWordLength(); h++) // For all letters in 'HiddenWord'
 		{ 
-			if (PlayerGuess[g] == MyHiddenWord[h]) // if the letter is in the Hidden Word
+			if (tolower(PlayerGuess[g]) == tolower(MyHiddenWord[h])) // if the letter is in the Hidden Word
 			{ 
 				if (g == h) // if the letter is in the right place
 				{ 
