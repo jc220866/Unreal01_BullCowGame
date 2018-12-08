@@ -1,5 +1,23 @@
 # pragma once
 # include <string>
+# include <map>
+# include <array>
+
+#define TArray std::array
+#define TMap std::map
+/*
+Incase you're wondering why we can't just use 'using' here, that's essentially because std::map requires parameters (<char, bool>).
+We could say " using TMap = std::map<char, bool>; ", that would be valid, if not a little specific and restrictive.
+https://community.gamedev.tv/t/using-std-map/34204/9
+*/
+
+/*
+// TODO advanced data types to keep an eye on: 
+Map (same as 'dict'?), 
+Set (basically a list?),
+Array (owo whats this), 
+std::pair (used in structs to essentially create a tuple)
+*/
 
 // FText vs FString = FStrings are mutable and can be manipulated, FText are immutable and generally used for interaction with the player.
 using FString = std::string;
@@ -46,7 +64,7 @@ public:
 	EGuessStatus IsGuessValid(FString PlayerGuess);
 
 	FBullCowCount SubmitGuess(FString PlayerGuess);
-	
+
 private:
 	// These private variables are only accessible via the functions inside of our class.
 	// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example.
@@ -61,4 +79,16 @@ private:
 	Initially, 'MyMaximumGuesses' was a constant variable. However, this lead to me being unable to change its value in the constructor!
 	The solution was to create a constant variable, then assign MyMaximumGuesses the value of that constant variable.
 	*/
+
+	bool IsIsogram(FString PlayerGuess) const;
+	bool IsAlphabetical(FString PlayerGuess) const;
+	void ReportBug(FString LocationOfError) const;
+
+	// Here is our list of possible hidden words. I may come back and flesh this game out a bit more, including 'difficulty' selection like max guesses and word length.
+	FString PossibleHiddenWords[1000] = { "Loser", "Slime", "Plane", "Right", "Score", "Alien", "Robin", "Corny",
+		"Extra", "Handy", "Dingo", "Rifle", "Shark", "Topaz", "Oscar", "Ripen", "Minty", "Brown", "Quiet", "Squid", 
+		"Rainy", "Noise" , "Tiger", "Snake", "Brine" };
+	// I don't like initializing the array to be a size of 1000, but it's more convenient than increasing the number every time I think of a new isogram.
+
+	// , ""
 };
