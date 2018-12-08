@@ -1,7 +1,9 @@
 # pragma once
 # include <string>
 # include <map>
+# include <array>
 
+#define TArray std::array
 #define TMap std::map
 /*
 Incase you're wondering why we can't just use 'using' here, that's essentially because std::map requires parameters (<char, bool>).
@@ -62,7 +64,7 @@ public:
 	EGuessStatus IsGuessValid(FString PlayerGuess);
 
 	FBullCowCount SubmitGuess(FString PlayerGuess);
-	
+
 private:
 	// These private variables are only accessible via the functions inside of our class.
 	// Whereas public variables would be accessible anywhere via BCGame.MyPublicVariable, for example.
@@ -81,4 +83,8 @@ private:
 	bool IsIsogram(FString PlayerGuess) const;
 	bool IsAlphabetical(FString PlayerGuess) const;
 	void ReportBug(FString LocationOfError) const;
+
+	FString PossibleHiddenWords[1000] = { "Loser", "Slime", "Plane", "Right", "Score", "Alien", "Robin", "Corny",
+		"Extra", "Handy", "Dingo", "Rifle", "Shark", "Topaz", "Oscar", "Ripen", "Minty", "Brown", "Quiet", "Squid", 
+		"Rainy", "Noise" , "Tiger", "Snake", "Brine" };
 };

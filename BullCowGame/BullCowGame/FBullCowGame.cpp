@@ -1,6 +1,7 @@
 # include "FBullCowGame.h"
 # include <string>
 # include <iostream>
+# include <random>
 
 using FString = std::string;
 using int32 = int;
@@ -35,7 +36,7 @@ However, functions that are not a member of a class cannot be const.
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
-	const FString HIDDEN_WORD = "Loser"; // TODO get this to choose from a list (or a set/array) of words
+	const FString HIDDEN_WORD = PossibleHiddenWords[rand() % PossibleHiddenWords->length()]; // TODO get this to choose from a list (or a set/array) of words
 	MyHiddenWord = HIDDEN_WORD;
 
 	constexpr int32 CURRENT_GUESS = 0;
@@ -52,7 +53,7 @@ void FBullCowGame::Reset()
 EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 {
 	// if the guess is not the same length as the hidden word
-	/*if (PlayerGuess.length() != GetHiddenWordLength())
+	if (PlayerGuess.length() != GetHiddenWordLength())
 	{
 		return EGuessStatus::Wrong_Length;
 	}
@@ -62,7 +63,7 @@ EGuessStatus FBullCowGame::IsGuessValid(FString PlayerGuess)
 		return EGuessStatus::Not_Alphabetical;
 	}
 	// if the guess has repeating letters
-	else */if ( ! IsIsogram(PlayerGuess))
+	else if ( ! IsIsogram(PlayerGuess))
 	{
 		return EGuessStatus::Repeating_Letters;
 	}
@@ -121,7 +122,7 @@ bool FBullCowGame::IsAlphabetical(FString PlayerGuess) const
 		{
 			return false; // It's clearly not alphabetical. As in, it contains either numbers or symbols.
 		}
-		else if (0 <= PositionOfCharacterInAlphabet <= 25) // If the character IS alphabetical, .find() would return a number between 0 and 25.
+		else if ((PositionOfCharacterInAlphabet >= 0) && (PositionOfCharacterInAlphabet <= 25)) // If the character IS alphabetical, .find() would return a number between 0 and 25.
 		{
 			// Do nothing. We don't want to return true until we have interrogated ALL characters in the guess.
 		}
