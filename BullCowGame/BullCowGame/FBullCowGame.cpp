@@ -36,7 +36,7 @@ However, functions that are not a member of a class cannot be const.
 // Our Reset() method is simply meant to re-initialize our variables, effectively resetting the gamestate.
 void FBullCowGame::Reset()
 {
-	const FString HIDDEN_WORD = PossibleHiddenWords[rand() % PossibleHiddenWords->length()]; // TODO get this to choose from a list (or a set/array) of words
+	const FString HIDDEN_WORD = PossibleHiddenWords[rand() % PossibleHiddenWords->length()]; // Even though the array is 1000 long, 'length' function still works. I guess?
 	MyHiddenWord = HIDDEN_WORD;
 
 	constexpr int32 CURRENT_GUESS = 0;
